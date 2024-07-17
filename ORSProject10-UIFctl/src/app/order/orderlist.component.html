@@ -1,0 +1,114 @@
+<app-navbar></app-navbar>
+
+<div class="content-wrapper">
+  <div class="container-fluid">
+
+    <!-- Panel Header -->
+    <div class="panel panel-primary">
+      <div class="panel-heading">
+        <div class="text-center">
+          <h2 class="text-primary font-weight-bold">{{ 'Order List' | translate }}</h2>
+        </div>
+      </div>
+
+      <!-- Search and Filter Section -->
+      <div class="row mt-3 mb-3">
+        <div class="col-sm-2">
+          <input type="text" class="form-control" [(ngModel)]="form.searchParams.quantity"
+            placeholder="{{ 'Search Quantity' | translate }}" pattern="[a-zA-Z0-9\s]*"
+            (input)="validateInput($event, 'quantity')">
+          <div *ngIf="!isValidquantityInput" class="text-danger">
+            Please enter letters, numbers, and spaces only.
+          </div>
+        </div>
+
+        <div class="col-sm-2">
+          <input type="date" class="form-control" [(ngModel)]="form.searchParams.dob"
+            placeholder="{{ 'Search DOB' | translate }}">
+        </div>
+
+        <div class="col-sm-2">
+          <input type="text" class="form-control" [(ngModel)]="form.searchParams.amount"
+            placeholder="{{ 'Search Amount' | translate }}" pattern="[a-zA-Z0-9\s]*"
+            (input)="validateInput($event, 'amount')">
+          <div *ngIf="!isValidamountInput" class="text-danger">
+            Please enter letters, numbers, and spaces only.
+          </div>
+        </div>
+
+        <div class="col-sm-2">
+          <select class="form-control" name="id" [(ngModel)]="form.searchParams.id" aria-label="ngSelected">
+            <option [ngValue]="" value="undefined">{{ 'Select Product' | translate }}</option>
+            <option *ngFor="let obj of form.preload.orderlist" [value]="obj.key">{{ obj.value }}</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="row mb-3">
+        <div class="col-sm-1">
+          <button (click)="submit()" class="btn btn-primary btn-block">{{ 'Search' | translate }}</button>
+        </div>
+
+        <div class="col-sm-1">
+          <button (click)="forward('/order')" class="btn btn-success btn-block">{{ 'Add Order' | translate }}</button>
+        </div>
+
+        <div class="col-sm-1">
+          <button (click)="deleteMany()" class="btn btn-danger btn-block">{{ 'Delete' | translate }}</button>
+        </div>
+      </div>
+
+      <!-- Alerts -->
+      <div *ngIf="form.error || form.message" class="alert alert-dismissible" [ngClass]="{
+          'alert-danger': form.error,
+          'alert-success': !form.error && form.message !== null
+        }">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close" (click)="closeAlert()"><span
+            aria-hidden="true">&times;</span></button>
+        {{ form.message }}
+      </div>
+
+      <!-- Data Table -->
+      <div class="table-responsive">
+        <table class="table table-bordered table-striped table-hover">
+          <thead class="thead-light text-uppercase">
+            <tr align="center">
+              <th><input type="checkbox" [(ngModel)]="isMasterSel" (change)="checkUncheckAll($event)" /></th>
+              <th>{{ 'S.No' | translate }}</th>
+              <th>{{ 'Quantity' | translate }}</th>
+              <th>{{ 'Product' | translate }}</th>
+              <th>{{ 'DOB' | translate }}</th>
+              <th>{{ 'Amount' | translate }}</th>
+              <th>{{ 'Edit' | translate }}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let m of form.list; let i = index" align="center">
+              <td><input type="checkbox" (change)="checklistUpdate()" /></td>
+              <td>{{ (form.pageNo * 5) + i + 1 }}</td>
+              <td>{{ m.quantity }}</td>
+              <td>{{ m.product }}</td>
+              <td>{{ m.dob | date : 'dd-MM-yyyy' }}</td>
+              <td>{{ m.amount }}</td>
+              <td><a (click)="forward('/order/' + m.id)" style="cursor: pointer;"><i
+                    class="fa fa-edit text-info"></i></a></td>
+            </tr>
+          </tbody>
+        </table>
+
+        <!-- Pagination Buttons -->
+        <div class="text-center">
+          <button (click)="previous()" [disabled]="form.pageNo == 0" class="btn btn-info">{{ 'Previous' |
+            translate }}</button>
+          <button (click)="next()" [disabled]="nextList == 0" class="btn btn-info ml-1">{{ 'Next' | translate }}</button>
+          <a *ngIf="form.list.length === 0" class="btn btn-warning ml-1" [routerLink]="['/studentlist']"
+            (click)="exit()">{{ 'Back' | translate }}</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<app-footer></app-footer>

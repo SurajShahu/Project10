@@ -1,0 +1,154 @@
+<app-navbar></app-navbar>
+<style>
+  .grad {
+    background-image: linear-gradient(to bottom right, rgb(32, 168, 168), rgb(219, 231, 237));
+    background-repeat: no repeat;
+    background-size: 100%;
+    padding-bottom: 25px;
+  }
+</style>
+
+<style type="text/css">
+  .log1 {
+    padding-top: 13%;
+  }
+
+  .input-group-addon {
+    box-shadow: 9px 8px 7px #001a33;
+
+  }
+</style>
+
+<div class="row " style="padding-top: 2%; padding-bottom:2%;
+
+background: url(assets/files/wall.jpg) no-repeat center center;
+background-attachment: fixed;
+background-size: cover;width:100%;
+  height: auto;">
+
+  <div class="col-sm-4"></div>
+  <div class="col-sm-4">
+    <div class="card">
+      <div class="card-body input-group-addon grad ">
+        <form name="userForm">
+          <h2 *ngIf="!form.data.id>0" class="text-primary font-weight-bold" style="text-align: center;">{{'Add Wish' |
+            translate }}</h2>
+          <h2 *ngIf="form.data.id>0" class="text-primary font-weight-bold" style="text-align: center;">{{'Update Wish' |
+            translate }}</h2>
+
+
+          <div *ngIf="!form.error && form.message != null" class="alert alert-success alert-dismissible">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            {{form.message}}
+          </div>
+
+          <div *ngIf="form.error && form.message != null" class="alert alert-danger alert-dismissible">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            {{form.message}}
+          </div>
+
+          
+        <div>
+            <span class="pt-2"><b>{{'UserName' | translate }}</b>
+              <span class="required-field"></span></span>
+            <div class="col-sm-12">
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <div class="input-group-text"><i class="fa fa-user-circle grey-text"></i> </div>
+                </div>
+                <input type="text" name="userName" [(ngModel)]="form.data.userName" class="form-control"
+                  placeholder="{{'Enter UserName'  | translate }}">
+              </div>
+           </div>
+           <!-- <span *ngIf="form.inputerror.accountholdername != null" class="alertRedColor" style=" color: red;">
+              {{'accountholdername'| translate}} </span>  -->
+            <span class="alertRedColor" style="color: red;"> {{form.inputerror.userName}} </span>
+          </div>
+
+
+          <div>
+
+            <span class="pt-2"><b>{{'Date' | translate }}</b>
+              <span class="required-field"></span></span>
+
+            <div class="col-sm-12">
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <div class="input-group-text"><i class="fa fa-table grey-text"></i> </div>
+                </div>
+                <input type="date" name="date" [value]="form.data.date | date:'yyyy-MM-dd'"
+                  (input)="form.data.date=parseDate($event.target.value)" class="form-control form-control-sm"
+                  required />
+              </div>
+            </div>
+            <span *ngIf="form.inputerror.date != null" class="alertRedColor" style=" color: red;"> {{'Date is required'|
+              translate}} </span>
+            <!-- <span class="alertRedColor"> {{form.inputerror.dob}} </span> -->
+          </div>
+
+
+          
+
+          <div>
+            <span class="pt-2"><b>{{'Remark' | translate }}</b>
+              <span class="required-field"></span></span>
+
+            <div class="col-sm-12">
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <div class="input-group-text"><i class="fa fa-envelope grey-text"></i> </div>
+                </div>
+                <input type="text" name="remark" [(ngModel)]="form.data.remark" class="form-control"
+                  placeholder="{{'Enter Remark'  | translate }}">
+              </div>
+            </div>
+            <!-- <span *ngIf="form.inputerror.branch!= null" class="alertRedColor" style=" color: red;"> {{'branch'|
+              translate}} </span> -->
+             <span class="alertRedColor" style=" color: red;"> {{form.inputerror.remark}} </span> 
+          </div>
+
+          <div>
+            <span class="pt-2"><b>{{'Product' | translate }}</b>
+              <span class="required-field"></span></span>
+  
+            <div class="col-sm-12">
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <div class="input-group-text"><i class="fa fa-bell grey-text"></i> </div>
+                </div>
+                <select class="form-control"  name="product" [(ngModel)]="form.data.product">
+                  <option [ngValue]="" value="undefined">{{'Select Product' | translate }}</option>
+            <option *ngFor="let obj of form.preload.wishlist" [value]="obj.value">{{obj.value}}</option>
+                </select>
+              </div>
+            </div><span *ngIf="form.inputerror.product != null" class="alertRedColor" style=" color: red;"> {{'product is required'|
+              translate}} </span>
+          
+          </div>
+
+         
+         
+          <div class="row pt-3 pl-3 pb-3">
+            <div class="pt-2">
+              <button *ngIf="!form.data.id>0" (click)="submit()" class="btn btn-success mr-2">
+                {{'Save' | translate }}</button>
+            </div>
+            <div class="pt-2">
+              <button *ngIf="form.data.id>0" (click)="submit()" class="btn btn-success mr-2">
+                {{'Update' | translate }}</button>
+            </div>
+            <div class="pt-2">
+              <button (click)="forward('/wishlistlist')" type="button"
+                class="btn btn-warning mr-1">{{'List' | translate }}
+              </button>
+            </div>
+          </div>
+
+
+
+        </form>
+      </div>
+    </div>
+  </div>
+</div>  
+<app-footer></app-footer>
